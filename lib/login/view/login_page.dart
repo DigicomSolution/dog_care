@@ -20,7 +20,6 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
     return BlocProvider(
       create: (context) => LoginFormBloc(),
       child: Builder(builder: (context) {
@@ -31,12 +30,11 @@ class LoginPage extends ConsumerWidget {
               backgroundColor: kPrimaryColor,
               body: SafeArea(
                 child: FormBlocListener<LoginFormBloc, String, String>(
-                  onSubmitting: (context, state)async {
-                    
+                  onSubmitting: (context, state) async {
                     showLoader(context);
                   },
                   onSuccess: (context, state) {
-                     hideLoader();
+                    hideLoader();
                     context.go(homeRoute);
                   },
                   onFailure: (context, state) {
@@ -133,18 +131,19 @@ class LoginPage extends ConsumerWidget {
                           children: [
                             const Text('Don\'t have an account yet?',
                                 style: TextStyle(fontSize: 16.0)),
-                            TextButton(
-                                onPressed: () {
-                                  context.go(fsignUpRoute);
-                                  // context.replaceRoute(SignupRoute());
-                                },
-                                child: const Text(
-                                  'Sign up',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.yellow,
-                                      fontWeight: FontWeight.bold),
-                                ))
+                            GestureDetector(
+                              onTap: () {
+                                context.go(fsignUpRoute);
+                                // context.replaceRoute(SignupRoute());
+                              },
+                              child: const Text(
+                                ' Sign up',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.yellow,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
                           ],
                         )
                       ],

@@ -101,7 +101,20 @@ class FirstRegisterPage extends ConsumerWidget {
                             const Spacer(),
                             const Text('Already have an Account?',
                                 style: TextStyle(fontSize: 16.0)),
-                            TextButton(
+                            GestureDetector(
+                              onTap: () {
+                                context.go(fsignUpRoute);
+                                // context.replaceRoute(SignupRoute());
+                              },
+                              child: const Text(
+                                ' Log in',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.yellow,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                            /*  TextButton(
                                 onPressed: () {
                                   // context.replaceRoute(SignupRoute());
                                   context.go(loginRoute);
@@ -112,7 +125,7 @@ class FirstRegisterPage extends ConsumerWidget {
                                       fontSize: 16.0,
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.bold),
-                                ))
+                                )) */
                           ],
                         ),
                         20.height,

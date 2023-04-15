@@ -203,16 +203,19 @@ class RegisterPage extends ConsumerWidget {
                         children: [
                           const Text('Already have an account?',
                               style: TextStyle(fontSize: 16.0)),
-                          TextButton(
-                              onPressed: () {
-                                context.go(loginRoute);
-                                // context.replaceRoute(LoginRoute());
-                              },
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.yellow),
-                              ))
+                          GestureDetector(
+                            onTap: () {
+                              context.go(loginRoute);
+                              // context.replaceRoute(SignupRoute());
+                            },
+                            child: const Text(
+                              ' Login',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.yellow,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
                         ],
                       )
                     ],
