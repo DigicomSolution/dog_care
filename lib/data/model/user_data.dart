@@ -12,7 +12,7 @@ class UserData with _$UserData {
     required String? firstname,
     required String? lastname,
     required String? phoneNumber,
-    required String? emailAddress,
+    required String? pupName,
   }) = _UserModel;
 
   factory UserData.fromJson(Map<String, Object?> json) =>

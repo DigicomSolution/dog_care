@@ -24,7 +24,7 @@ final listUserProvider =
               firstname: fisrtName,
               lastname: lastName,
               phoneNumber: phone,
-              emailAddress: email));
+              pupName: email));
         }
       } catch (e) {
         print(e);

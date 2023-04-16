@@ -26,6 +26,11 @@ class RegisterPage extends ConsumerWidget {
       create: (context) => SignupFormBloc(),
       child: Builder(builder: (context) {
         final signupFormBloc = context.read<SignupFormBloc>();
+        String phoneNumber = getStringAsync(kPhoneNumber, defaultValue: '');
+        if (!phoneNumber.isEmptyOrNull) {
+          signupFormBloc.numberCode.updateValue(true);
+        }
+
         return Scaffold(
             backgroundColor: kPrimaryColor,
             body: SafeArea(
@@ -71,7 +76,7 @@ class RegisterPage extends ConsumerWidget {
                       .center(), */
                       48.height,
                       Text(
-                        'Signup to gain access',
+                        'Please enter your information below',
                         textAlign: TextAlign.center,
                         style:
                             GoogleFonts.ubuntu(fontSize: 20, color: appBlack),
@@ -90,27 +95,30 @@ class RegisterPage extends ConsumerWidget {
                             prefixIcon: const Icon(PhosphorIcons.user)),
                       ),
                       TextFieldBlocBuilder(
-                        textFieldBloc: signupFormBloc.address,
+                        textFieldBloc: signupFormBloc.pupName,
                         decoration: inputDecoration(
-                            labelText: 'Address',
-                            prefixIcon: const Icon(PhosphorIcons.envelope)),
+                            labelText: "Pup's Name(s)",
+                            prefixIcon: const Icon(PhosphorIcons.dog)),
                       ),
-                      IntlPhoneField(
-                        decoration: inputDecoration(
-                          labelText: 'Phone Number',
+                      Visibility(
+                        visible: phoneNumber.isEmptyOrNull,
+                        child: IntlPhoneField(
+                          decoration: inputDecoration(
+                            labelText: 'Phone Number',
+                          ),
+                          initialCountryCode: 'US',
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                            if (phone.completeNumber.toString().isEmptyOrNull ||
+                                phone.completeNumber.length < 3) {
+                              signupFormBloc.numberCode.updateValue(false);
+                            } else {
+                              signupFormBloc.numberCode.updateValue(true);
+                            }
+                            setValue(
+                                kPhoneNumber, phone.completeNumber.toString());
+                          },
                         ),
-                        initialCountryCode: 'IN',
-                        onChanged: (phone) {
-                          print(phone.completeNumber);
-                          if (phone.completeNumber.toString().isEmptyOrNull ||
-                              phone.completeNumber.length < 3) {
-                            signupFormBloc.numberCode.updateValue(false);
-                          } else {
-                            signupFormBloc.numberCode.updateValue(true);
-                          }
-                          setValue(
-                              kPhoneNumber, phone.completeNumber.toString());
-                        },
                       ),
                       /*  TextFieldBlocBuilder(
                         textFieldBloc: signupFormBloc.confirmPassword,
@@ -137,7 +145,7 @@ class RegisterPage extends ConsumerWidget {
                                 color: appBlack, height: 1.5, fontSize: 14.0),
                             children: [
                               TextSpan(
-                                  text: 'Terms And Condition',
+                                  text: 'Terms And Conditions',
                                   style: const TextStyle(
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.bold),

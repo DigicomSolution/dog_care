@@ -1,8 +1,8 @@
 //Colour Palette
 import 'dart:ui';
 
-const kPrimaryColor = Color(0xFF55ACEE);
-const kPrimaryColorLight = Color.fromARGB(255, 84, 153, 206);
+const kPrimaryColor = Color.fromARGB(255, 202, 236, 253);
+const kPrimaryColorLight = Color(0xFFD8F2FF);
 const pictonBlue = Color(0xFF26ADE8);
 const hummingBird = Color(0xFFD6F2FA);
 const brightTurquoise = Color(0xFF2CD4F4);
@@ -16,6 +16,6 @@ const kBlack = Color(0xFF000000);
 const gray = Color(0xFF505050);
 const scaffoldColor = Color(0xFFFAF8F8);
 const black5 = Color(0xFFF3F4F8);
-const black4 = Color(0xffff5f5f5);
+const black4 = Color(0xff5f5f5);
 
 const dividerColor = Color(0xFFF3F4F8);

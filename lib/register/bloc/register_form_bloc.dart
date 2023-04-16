@@ -9,7 +9,7 @@ class SignupFormBloc extends FormBloc<String, String> {
   final lName = TextFieldBloc(
     validators: [FieldBlocValidators.required],
   );
-  final address = TextFieldBloc(
+  final pupName = TextFieldBloc(
     validators: [FieldBlocValidators.required],
   );
 
@@ -24,7 +24,7 @@ class SignupFormBloc extends FormBloc<String, String> {
 
   SignupFormBloc() {
     addFieldBlocs(
-      fieldBlocs: [fName, lName, address, numberCode, agreeToConditions],
+      fieldBlocs: [fName, lName,pupName, numberCode, agreeToConditions],
     );
     // Obtain shared preferences.
 
@@ -50,12 +50,12 @@ class SignupFormBloc extends FormBloc<String, String> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       final List<String> items = prefs.getStringList(kList) ?? [];
-      String number = getStringAsync(kPhoneNumber).split('+').last;
+      String number =getStringAsync(kPhoneNumber).contains('+')? getStringAsync(kPhoneNumber).split('+').last:getStringAsync(kPhoneNumber);
 
       var model = <String, String>{
         'firstname': fName.value,
         'lastname': lName.value,
-        'emailAddress': address.value,
+        'pupName': pupName.value,
         'phoneNumber': number,
       };
 

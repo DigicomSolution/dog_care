@@ -69,7 +69,7 @@ class FirstRegisterPage extends ConsumerWidget {
                         TextFieldBlocBuilder(
                           textFieldBloc: loginFormBloc.username,
                           decoration: inputDecoration(
-                              labelText: 'Email',
+                              labelText: 'Username',
                               prefixIcon: const Icon(PhosphorIcons.user)),
                         ),
 
@@ -99,7 +99,7 @@ class FirstRegisterPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Spacer(),
-                            const Text('Already have an Account?',
+                            const Text('Already have an account?',
                                 style: TextStyle(fontSize: 16.0)),
                             GestureDetector(
                               onTap: () {
@@ -149,15 +149,15 @@ class FirstRegisterPage extends ConsumerWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Text('By clicking "Create page" you agree to our',
+                            Text('By clicking "Create Account" you agree to our',
                                 style: TextStyle(fontSize: 16.0)),
-                            Text(
+                           /*  Text(
                               'Privacy policy and Terms',
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.yellow,
                                   fontWeight: FontWeight.bold),
-                            )
+                            ) */
                           ],
                         )
                       ],

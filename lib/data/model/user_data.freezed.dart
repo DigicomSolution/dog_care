@@ -26,8 +26,8 @@ mixin _$UserData {
   set lastname(String? value) => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   set phoneNumber(String? value) => throw _privateConstructorUsedError;
-  String? get emailAddress => throw _privateConstructorUsedError;
-  set emailAddress(String? value) => throw _privateConstructorUsedError;
+  String? get pupName => throw _privateConstructorUsedError;
+  set pupName(String? value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +44,7 @@ abstract class $UserDataCopyWith<$Res> {
       {String? firstname,
       String? lastname,
       String? phoneNumber,
-      String? emailAddress});
+      String? pupName});
 }
 
 /// @nodoc
@@ -63,7 +63,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? phoneNumber = freezed,
-    Object? emailAddress = freezed,
+    Object? pupName = freezed,
   }) {
     return _then(_value.copyWith(
       firstname: freezed == firstname
@@ -78,9 +78,9 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailAddress: freezed == emailAddress
-          ? _value.emailAddress
-          : emailAddress // ignore: cast_nullable_to_non_nullable
+      pupName: freezed == pupName
+          ? _value.pupName
+          : pupName // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -97,7 +97,7 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserDataCopyWith<$Res> {
       {String? firstname,
       String? lastname,
       String? phoneNumber,
-      String? emailAddress});
+      String? pupName});
 }
 
 /// @nodoc
@@ -114,7 +114,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? phoneNumber = freezed,
-    Object? emailAddress = freezed,
+    Object? pupName = freezed,
   }) {
     return _then(_$_UserModel(
       firstname: freezed == firstname
@@ -129,9 +129,9 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailAddress: freezed == emailAddress
-          ? _value.emailAddress
-          : emailAddress // ignore: cast_nullable_to_non_nullable
+      pupName: freezed == pupName
+          ? _value.pupName
+          : pupName // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -144,7 +144,7 @@ class _$_UserModel implements _UserModel {
       {required this.firstname,
       required this.lastname,
       required this.phoneNumber,
-      required this.emailAddress});
+      required this.pupName});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -156,11 +156,11 @@ class _$_UserModel implements _UserModel {
   @override
   String? phoneNumber;
   @override
-  String? emailAddress;
+  String? pupName;
 
   @override
   String toString() {
-    return 'UserData(firstname: $firstname, lastname: $lastname, phoneNumber: $phoneNumber, emailAddress: $emailAddress)';
+    return 'UserData(firstname: $firstname, lastname: $lastname, phoneNumber: $phoneNumber, pupName: $pupName)';
   }
 
   @JsonKey(ignore: true)
@@ -182,7 +182,7 @@ abstract class _UserModel implements UserData {
       {required String? firstname,
       required String? lastname,
       required String? phoneNumber,
-      required String? emailAddress}) = _$_UserModel;
+      required String? pupName}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -197,8 +197,8 @@ abstract class _UserModel implements UserData {
   String? get phoneNumber;
   set phoneNumber(String? value);
   @override
-  String? get emailAddress;
-  set emailAddress(String? value);
+  String? get pupName;
+  set pupName(String? value);
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

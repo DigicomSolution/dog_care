@@ -58,7 +58,7 @@ class LoginPage extends ConsumerWidget {
 
                         48.height,
                         Text(
-                          'Please log in to your account to access unique QR code!',
+                          'Please log in to your account to access your unique QR code',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.ubuntu(
                               fontSize: 20,
@@ -69,7 +69,7 @@ class LoginPage extends ConsumerWidget {
                         TextFieldBlocBuilder(
                           textFieldBloc: loginFormBloc.username,
                           decoration: inputDecoration(
-                              labelText: 'Email',
+                              labelText: 'Username',
                               prefixIcon: const Icon(PhosphorIcons.user)),
                         ),
 

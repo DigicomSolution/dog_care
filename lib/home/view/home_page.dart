@@ -52,10 +52,23 @@ class MyHomePage extends HookConsumerWidget {
                         children: data
                             .map((e) => GestureDetector(
                                 onTap: () {
-                                  selectedModel.value = e.toJson().toString();
+                                  //  String value = e.toString();
+                                  String fName = e.firstname!;
+                                  String lName = e.lastname!;
+                                  String phNum = e.phoneNumber!;
+                                  String pupName = e.pupName!;
+                                  var all = {
+                                    'firstName': fName,
+                                    'lastName': lName,
+                                    'phoneNumber': phNum,
+                                    'pupName': pupName
+                                  };
+
+                                  selectedModel.value = json.encode(all);
+                                  finish(context);
                                 },
                                 child: ListTile(
-                                  title: Text(e.firstname!),
+                                  title: Text(e.pupName!),
                                 )))
                             .toList());
                   },
@@ -69,7 +82,7 @@ class MyHomePage extends HookConsumerWidget {
               SizedBox(
                 width: context.width() / 3,
                 child: AppButton(
-                  title: 'Add Another Dog',
+                  title: "Add Another Dog(s)",
                   onPressed: () {
                     context.go(signUpRoute);
                   },
@@ -94,23 +107,8 @@ class MyHomePage extends HookConsumerWidget {
               );
             })),
         body: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-
           children: <Widget>[
-            100.height,
+            80.height,
             Assets.image.dog
                 .image(
                   width: 120,
@@ -118,7 +116,7 @@ class MyHomePage extends HookConsumerWidget {
                 .center(),
             10.height,
             Text(
-              jsonDecode(selectedModel.value)['firstname'],
+              jsonDecode(selectedModel.value)['pupName'],
               textAlign: TextAlign.center,
               style: GoogleFonts.ubuntu(
                   fontSize: 20, color: appBlack, fontWeight: FontWeight.w700),
