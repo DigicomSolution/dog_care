@@ -103,14 +103,14 @@ class FirstRegisterPage extends ConsumerWidget {
                                 style: TextStyle(fontSize: 16.0)),
                             GestureDetector(
                               onTap: () {
-                                context.go(fsignUpRoute);
+                                context.go(loginRoute);
                                 // context.replaceRoute(SignupRoute());
                               },
                               child: const Text(
                                 ' Log in',
                                 style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Colors.yellow,
+                                    color: Colors.blue,
                                     fontWeight: FontWeight.bold),
                               ),
                             )
@@ -146,12 +146,13 @@ class FirstRegisterPage extends ConsumerWidget {
                           style: TextStyle(fontSize: 12.0, color: ColorName.black40),
                         ), */
                         //  72.height,
-                        Column(
+                        /*  Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Text('By clicking "Create Account" you agree to our',
+                            Text(
+                                'By clicking "Create Account" you agree to our',
                                 style: TextStyle(fontSize: 16.0)),
-                           /*  Text(
+                            /*  Text(
                               'Privacy policy and Terms',
                               style: TextStyle(
                                   fontSize: 16.0,
@@ -159,7 +160,7 @@ class FirstRegisterPage extends ConsumerWidget {
                                   fontWeight: FontWeight.bold),
                             ) */
                           ],
-                        )
+                        ) */
                       ],
                     ),
                   ),

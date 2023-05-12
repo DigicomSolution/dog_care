@@ -8,7 +8,7 @@ final listUserProvider =
     FutureProvider.autoDispose<List<UserData>>((ref) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String>? list = prefs.getStringList(kList);
-  print(list);
+  //print(list);
   List<UserData> userList = [];
   if (list != null) {
     if (list.isNotEmpty) {

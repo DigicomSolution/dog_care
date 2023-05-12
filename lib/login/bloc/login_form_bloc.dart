@@ -33,7 +33,7 @@ class LoginFormBloc extends FormBloc<String, String> {
     print(getStringAsync(kEmail));
     print(getStringAsync(kPassword));
     if (getStringAsync(kEmail) != username.value.toString().trim()) {
-      emitFailure(failureResponse: 'invalid email');
+      emitFailure(failureResponse: 'Login not recognized');
       return;
     }
     if (getStringAsync(kPassword) != password.value.toString().trim()) {

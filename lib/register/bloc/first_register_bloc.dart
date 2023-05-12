@@ -30,8 +30,14 @@ class FirstFormBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(kList, []);
     setValue(kEmail, username.value);
     setValue(kPassword, password.value);
+
+    setValue(kPhoneNumber, '');
+    setValue(kLastName, '');
+    setValue(kFirstName, '');
     emitSuccess();
     /* 
    setValue(kToken, res.data.token);

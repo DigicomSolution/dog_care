@@ -142,6 +142,7 @@ class ChangePasswordPage extends ConsumerWidget {
                                 style: TextStyle(fontSize: 16.0)),
                             TextButton(
                                 onPressed: () {
+                                  context.go(fsignUpRoute);
                                   // context.replaceRoute(SignupRoute());
                                 },
                                 child: const Text(

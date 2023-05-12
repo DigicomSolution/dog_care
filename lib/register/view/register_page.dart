@@ -11,6 +11,7 @@ import 'package:qrcode_app/router.dart';
 import 'package:qrcode_app/util/color.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../home/provider/provider.dart';
 import '../../util/app_button.dart';
 import '../../util/constant.dart';
 import '../../util/input_decoration.dart';
@@ -27,8 +28,21 @@ class RegisterPage extends ConsumerWidget {
       child: Builder(builder: (context) {
         final signupFormBloc = context.read<SignupFormBloc>();
         String phoneNumber = getStringAsync(kPhoneNumber, defaultValue: '');
-        if (!phoneNumber.isEmptyOrNull) {
+        if (!phoneNumber.trim().isEmptyOrNull) {
           signupFormBloc.numberCode.updateValue(true);
+        }
+
+        String lastName = getStringAsync(kLastName, defaultValue: '');
+        if (!lastName.trim().isEmptyOrNull) {
+          signupFormBloc.lName
+              .updateValue(getStringAsync(kLastName, defaultValue: ''));
+        }
+
+        String firstName = getStringAsync(kFirstName, defaultValue: '');
+        if (!firstName.trim().isEmptyOrNull) {
+          signupFormBloc.fName
+              .updateValue(getStringAsync(kFirstName, defaultValue: ''));
+          signupFormBloc.agreeToConditions.updateValue(true);
         }
 
         return Scaffold(
@@ -40,7 +54,8 @@ class RegisterPage extends ConsumerWidget {
                 },
                 onSuccess: (context, state) {
                   hideLoader();
-                  context.go(homeRoute);
+                  context.pushReplacement(homeRoute);
+                  ref.refresh(listUserProvider);
                   /*  snackBar(context,
                   title: 'Account Created Successful',
                   backgroundColor: Colors.green);
@@ -76,23 +91,31 @@ class RegisterPage extends ConsumerWidget {
                       .center(), */
                       48.height,
                       Text(
-                        'Please enter your information below',
+                        phoneNumber.isEmptyOrNull
+                            ? 'Please enter your information below'
+                            : 'Please enter your dog name',
                         textAlign: TextAlign.center,
                         style:
                             GoogleFonts.ubuntu(fontSize: 20, color: appBlack),
                       ),
                       32.height,
-                      TextFieldBlocBuilder(
-                        textFieldBloc: signupFormBloc.fName,
-                        decoration: inputDecoration(
-                            labelText: 'First Name',
-                            prefixIcon: const Icon(PhosphorIcons.user)),
+                      Visibility(
+                        visible: firstName.trim().isEmptyOrNull,
+                        child: TextFieldBlocBuilder(
+                          textFieldBloc: signupFormBloc.fName,
+                          decoration: inputDecoration(
+                              labelText: 'First Name',
+                              prefixIcon: const Icon(PhosphorIcons.user)),
+                        ),
                       ),
-                      TextFieldBlocBuilder(
-                        textFieldBloc: signupFormBloc.lName,
-                        decoration: inputDecoration(
-                            labelText: 'Last Name',
-                            prefixIcon: const Icon(PhosphorIcons.user)),
+                      Visibility(
+                        visible: lastName.trim().isEmptyOrNull,
+                        child: TextFieldBlocBuilder(
+                          textFieldBloc: signupFormBloc.lName,
+                          decoration: inputDecoration(
+                              labelText: 'Last Name',
+                              prefixIcon: const Icon(PhosphorIcons.user)),
+                        ),
                       ),
                       TextFieldBlocBuilder(
                         textFieldBloc: signupFormBloc.pupName,
@@ -101,7 +124,7 @@ class RegisterPage extends ConsumerWidget {
                             prefixIcon: const Icon(PhosphorIcons.dog)),
                       ),
                       Visibility(
-                        visible: phoneNumber.isEmptyOrNull,
+                        visible: phoneNumber.trim().isEmptyOrNull,
                         child: IntlPhoneField(
                           decoration: inputDecoration(
                             labelText: 'Phone Number',
@@ -131,56 +154,59 @@ class RegisterPage extends ConsumerWidget {
                         ),
                       ), */
                       20.height,
-                      CheckboxFieldBlocBuilder(
-                        //   checkColor:
-                        //     MaterialStateProperty.all(ColorName.primaryColor),
-                        booleanFieldBloc: signupFormBloc.agreeToConditions,
-                        body: RichText(
-                          overflow: TextOverflow.ellipsis,
+                      Visibility(
+                        visible: phoneNumber.trim().isEmptyOrNull,
+                        child: CheckboxFieldBlocBuilder(
+                          //   checkColor:
+                          //     MaterialStateProperty.all(ColorName.primaryColor),
+                          booleanFieldBloc: signupFormBloc.agreeToConditions,
+                          body: RichText(
+                            overflow: TextOverflow.ellipsis,
 
-                          // maxLines: 1,
-                          text: TextSpan(
-                            text: 'I agree to the ',
-                            style: const TextStyle(
-                                color: appBlack, height: 1.5, fontSize: 14.0),
-                            children: [
-                              TextSpan(
-                                  text: 'Terms And Conditions',
+                            // maxLines: 1,
+                            text: TextSpan(
+                              text: 'I agree to the ',
+                              style: const TextStyle(
+                                  color: appBlack, height: 1.5, fontSize: 14.0),
+                              children: [
+                                TextSpan(
+                                    text: 'Terms And Conditions',
+                                    style: const TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        /*  try {
+                                      _launchUrl(context,
+                                          "https://vigoplace.com/terms-and-conditions");
+                                      /*      await launch('https://flutter.dev',
+                                          forceWebView: true,
+                                          //   forceSafariVC: true,
+                                          enableJavaScript: true); */
+                                    } catch (e) {
+                                      log('invalid url');
+                                    } */
+                                      }),
+                                const TextSpan(
+                                  text: ' and \n',
+                                ),
+                                TextSpan(
+                                  text: 'Privacy Policy',
                                   style: const TextStyle(
-                                      color: Colors.yellow,
+                                      color: Colors.blue,
                                       fontWeight: FontWeight.bold),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      /*  try {
+                                      /* try {
                                     _launchUrl(context,
-                                        "https://vigoplace.com/terms-and-conditions");
-                                    /*      await launch('https://flutter.dev',
-                                        forceWebView: true,
-                                        //   forceSafariVC: true,
-                                        enableJavaScript: true); */
+                                        "https://vigoplace.com/privacy-policy");
                                   } catch (e) {
                                     log('invalid url');
                                   } */
-                                    }),
-                              const TextSpan(
-                                text: ' and \n',
-                              ),
-                              TextSpan(
-                                text: 'Privacy Policy',
-                                style: const TextStyle(
-                                    color: Colors.yellow,
-                                    fontWeight: FontWeight.bold),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () async {
-                                    /* try {
-                                  _launchUrl(context,
-                                      "https://vigoplace.com/privacy-policy");
-                                } catch (e) {
-                                  log('invalid url');
-                                } */
-                                  },
-                              ),
-                            ],
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -191,7 +217,9 @@ class RegisterPage extends ConsumerWidget {
                               bloc: signupFormBloc.agreeToConditions,
                               builder: (context, s) {
                                 return AppButton(
-                                  title: 'Create Account',
+                                  title: phoneNumber.isEmptyOrNull
+                                      ? 'Create Account'
+                                      : 'Add Dog',
                                   onPressed: signupFormBloc.submit,
                                   isDisabled:
                                       state.isValid(0) && s.value == true
@@ -206,25 +234,28 @@ class RegisterPage extends ConsumerWidget {
                         },
                       ),
                       24.height,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Already have an account?',
-                              style: TextStyle(fontSize: 16.0)),
-                          GestureDetector(
-                            onTap: () {
-                              context.go(loginRoute);
-                              // context.replaceRoute(SignupRoute());
-                            },
-                            child: const Text(
-                              ' Login',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.yellow,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
+                      Visibility(
+                        visible: phoneNumber.isEmptyOrNull,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Already have an account?',
+                                style: TextStyle(fontSize: 16.0)),
+                            GestureDetector(
+                              onTap: () {
+                                context.go(loginRoute);
+                                // context.replaceRoute(SignupRoute());
+                              },
+                              child: const Text(
+                                ' Login',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),

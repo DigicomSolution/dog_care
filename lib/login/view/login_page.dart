@@ -95,19 +95,21 @@ class LoginPage extends ConsumerWidget {
                         )
                       ],
                     ), */
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              context.go(changePassRoute);
-                            },
-                            child: const Text('Change password',
+
+                        GestureDetector(
+                          onTap: () {
+                            context.go(changePassRoute);
+                          },
+                          child: const Align(
+                            alignment: Alignment.bottomRight,
+                            child: Text('Change password',
                                 style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Colors.yellow,
+                                    color: Colors.blue,
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
+
                         20.height,
                         BlocBuilder<LoginFormBloc, FormBlocState>(
                           bloc: loginFormBloc,
@@ -140,7 +142,7 @@ class LoginPage extends ConsumerWidget {
                                 ' Sign up',
                                 style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Colors.yellow,
+                                    color: Colors.blue,
                                     fontWeight: FontWeight.bold),
                               ),
                             )

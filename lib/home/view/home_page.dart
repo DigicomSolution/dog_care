@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart' hide AppButton;
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qrcode_app/data/model/user_data.dart';
 import 'package:qrcode_app/router.dart';
 import 'package:qrcode_app/util/color.dart';
 import 'package:qrcode_app/util/constant.dart';
@@ -21,7 +20,9 @@ class MyHomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedModel =
-        useState(getStringAsync(kSelectedModel, defaultValue: "unkown"));
+        useState<UserData?>(UserData.fromJson(getJSONAsync(kSelectedModel)));
+    //getStringAsync(kSelectedModel, defaultValue: "unkown")
+    final qrImage = useState(getStringAsync(kqrcode, defaultValue: "unkown"));
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -63,8 +64,11 @@ class MyHomePage extends HookConsumerWidget {
                                     'phoneNumber': phNum,
                                     'pupName': pupName
                                   };
-
-                                  selectedModel.value = json.encode(all);
+                                  String imageName =
+                                      "$fName, $lName, $pupName, $phNum";
+                                  setValue(kqrcode, imageName);
+                                  qrImage.value = imageName;
+                                  selectedModel.value = UserData.fromJson(all);
                                   finish(context);
                                 },
                                 child: ListTile(
@@ -84,7 +88,7 @@ class MyHomePage extends HookConsumerWidget {
                 child: AppButton(
                   title: "Add Another Dog(s)",
                   onPressed: () {
-                    context.go(signUpRoute);
+                    context.push(signUpRoute);
                   },
                   isDisabled: false,
                 ),
@@ -106,50 +110,154 @@ class MyHomePage extends HookConsumerWidget {
                 tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
               );
             })),
-        body: Column(
-          children: <Widget>[
-            80.height,
-            Assets.image.dog
-                .image(
-                  width: 120,
-                )
-                .center(),
-            10.height,
-            Text(
-              jsonDecode(selectedModel.value)['pupName'],
-              textAlign: TextAlign.center,
-              style: GoogleFonts.ubuntu(
-                  fontSize: 20, color: appBlack, fontWeight: FontWeight.w700),
-            ),
-            48.height,
-            Container(
-              color: Colors.white,
-              child: QrImage(
-                data: selectedModel.value,
-                size: 280,
-                // You can include embeddedImageStyle Property if you
-                //wanna embed an image from your Asset folder
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: const Size(
-                    100,
-                    100,
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              40.height,
+              Assets.image.dog
+                  .image(
+                    width: 120,
+                  )
+                  .center(),
+              10.height,
+              Text(
+                selectedModel.value == null
+                    ? 'No Dog '
+                    : selectedModel.value!.pupName ?? 'No dog added',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.ubuntu(
+                    fontSize: 20, color: appBlack, fontWeight: FontWeight.w700),
+              ),
+              48.height,
+              selectedModel.value != null
+                  ? Container(
+                      color: Colors.white,
+                      child: QrImage(
+                        data: qrImage.value,
+                        size: 280,
+                        // You can include embeddedImageStyle Property if you
+                        //wanna embed an image from your Asset folder
+                        embeddedImageStyle: QrEmbeddedImageStyle(
+                          size: const Size(
+                            100,
+                            100,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              20.height,
+              if (selectedModel.value != null)
+                SizedBox(
+                  width: 200,
+                  child: AppButton(
+                    title: 'Delete dog',
+                    onPressed: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+
+                      final List<String> items =
+                          prefs.getStringList(kList) ?? [];
+                      String theOne = '';
+                      for (String stuff in items) {
+                        print(stuff);
+                        //  print(jsonDecode(selectedModel.value)['pupName']);
+                        if (stuff.contains(selectedModel.value!.pupName!)) {
+                          theOne = stuff;
+                        }
+                      }
+                      if (theOne.trim().isNotEmpty) {
+                        items.remove(theOne);
+                      }
+
+                      // setValue(kSelectedModel, items);
+                      // items.add(model.toString());
+
+                      await prefs.setStringList(kList, items);
+                      if (items.isEmpty) {
+                        setValue(kSelectedModel, '');
+                        selectedModel.value = null;
+                        context.push(signUpRoute);
+                      } else {
+                        print('kkkkkk');
+                        print(items[0]);
+                        print(items[0]);
+                        print('popopopoo');
+                        //{firstname: j, lastname: j, pupName: pop new, phoneNumber: 19999999999}
+                        var list = items[0].split(', ');
+                        var fname = list[0].split('firstname:').last.trim();
+                        var lname = list[1].split('lastname:').last.trim();
+                        var pupName = list[2].split('pupName:').last.trim();
+                        var phoneNumber =
+                            list[3].split('phoneNumber:').last.trim();
+                        var model = <String, String>{
+                          'firstname': fname,
+                          'lastname': lname,
+                          'pupName': pupName,
+                          'phoneNumber': phoneNumber,
+                        };
+                        setValue(kSelectedModel, model);
+                        selectedModel.value = UserData(
+                            firstname: fname,
+                            lastname: lname,
+                            phoneNumber: phoneNumber,
+                            pupName: pupName);
+                        String imageName = '';
+
+                        /*   String fname =
+                            jsonDecode(selectedModel.value)['firstName'];
+                        String lname =
+                            jsonDecode(selectedModel.value)['lastName'];
+                        String pname =
+                            jsonDecode(selectedModel.value)['phoneNumber'];
+                        String pupName =
+                            jsonDecode(selectedModel.value)['pupName']; */
+                        imageName = "$fname, $lname, $pupName, $phoneNumber";
+                        print('wwer $imageName');
+                        qrImage.value = imageName;
+                        setValue(kqrcode, imageName);
+                        ref.refresh(listUserProvider);
+                      }
+                      
+                    },
+                    isDisabled: false,
+                    /*  isDisabled:
+                                    signupFormBloc.agreeToConditions.value == true
+                                        ? false
+                                        : true, */
                   ),
                 ),
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  context.go(loginRoute);
-                  // context.replaceRoute(SignupRoute());
-                },
-                child: const Text(
-                  'Log out',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.yellow,
-                      fontWeight: FontWeight.bold),
-                ))
-          ],
+              if (selectedModel.value == null)
+                SizedBox(
+                  width: 200,
+                  child: AppButton(
+                    title: 'Add Another Dog(s)',
+                    onPressed: () async {
+                      context.push(signUpRoute);
+                    },
+                    isDisabled: false,
+                    /*  isDisabled:
+                                    signupFormBloc.agreeToConditions.value == true
+                                        ? false
+                                        : true, */
+                  ),
+                ),
+              TextButton(
+                  onPressed: () async{
+                     setValue(kIsLoggedIn, false);
+                    
+                    context.go(loginRoute);
+                    // context.replaceRoute(SignupRoute());
+                  },
+                  child: const Text(
+                    'Log out',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+          ),
         ),
       ),
     );
