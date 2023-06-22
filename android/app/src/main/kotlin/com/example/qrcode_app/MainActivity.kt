@@ -1,4 +1,4 @@
-package com.example.qrcode_app
+package com.pupscoutsboarding.qrbarcodes
 
 import io.flutter.embedding.android.FlutterActivity
 

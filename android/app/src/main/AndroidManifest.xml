@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.qrcode_app">
+    package="com.pupscoutsboarding.qrbarcodes">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="qrcode_app"
