@@ -95,45 +95,45 @@ class FirstRegisterPage extends ConsumerWidget {
                         )
                       ],
                     ), */
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Spacer(),
-                            const Text('Already have an account?',
-                                style: TextStyle(fontSize: 16.0)),
-                            GestureDetector(
-                              onTap: () {
-                                context.go(loginRoute);
-                                // context.replaceRoute(SignupRoute());
-                              },
-                              child: const Text(
-                                ' Log in',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                            /*  TextButton(
-                                onPressed: () {
-                                  // context.replaceRoute(SignupRoute());
-                                  context.go(loginRoute);
-                                },
-                                child: const Text(
-                                  'Log in',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.yellow,
-                                      fontWeight: FontWeight.bold),
-                                )) */
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     const Spacer(),
+                        //     const Text('Already have an account?',
+                        //         style: TextStyle(fontSize: 16.0)),
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         context.go(loginRoute);
+                        //         // context.replaceRoute(SignupRoute());
+                        //       },
+                        //       child: const Text(
+                        //         ' Log in',
+                        //         style: TextStyle(
+                        //             fontSize: 16.0,
+                        //             color: Colors.blue,
+                        //             fontWeight: FontWeight.bold),
+                        //       ),
+                        //     )
+                        //     /*  TextButton(
+                        //         onPressed: () {
+                        //           // context.replaceRoute(SignupRoute());
+                        //           context.go(loginRoute);
+                        //         },
+                        //         child: const Text(
+                        //           'Log in',
+                        //           style: TextStyle(
+                        //               fontSize: 16.0,
+                        //               color: Colors.yellow,
+                        //               fontWeight: FontWeight.bold),
+                        //         )) */
+                        //   ],
+                        // ),
                         20.height,
                         BlocBuilder<FirstFormBloc, FormBlocState>(
                           bloc: loginFormBloc,
                           builder: (context, FormBlocState state) {
                             return AppButton(
-                              title: 'Create Account',
+                              title: 'Next',
                               onPressed: loginFormBloc.submit,
                               isDisabled: state.isValid(0) ? false : true,
                             );

@@ -8,7 +8,7 @@ import 'package:qrcode_app/util/constant.dart';
 
 import 'change_password/view/change_password_page.dart';
 
-const String loginRoute = '/login';
+// const String loginRoute = '/login';
 const String homeRoute = '/home';
 const String signUpRoute = '/signup';
 const String fsignUpRoute = '/fsignup';
@@ -22,7 +22,7 @@ final router = GoRouter(
       redirect: (context, state) {
         return getBoolAsync(kIsLoggedIn, defaultValue: false)
             ? homeRoute
-            : loginRoute;
+            : fsignUpRoute;
 
         /*  ? const StoreBottomNavigation()
                 : const CustomerBottomNavigation(); */
@@ -40,10 +40,10 @@ final router = GoRouter(
       builder: (context, state) => const MyHomePage(),
     ),
 
-    GoRoute(
-      path: loginRoute,
-      builder: (context, state) => const LoginPage(),
-    ),
+    // GoRoute(
+    //   path: loginRoute,
+    //   builder: (context, state) => const LoginPage(),
+    // ),
 
     GoRoute(
       path: signUpRoute,

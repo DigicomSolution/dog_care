@@ -234,29 +234,29 @@ class RegisterPage extends ConsumerWidget {
                         },
                       ),
                       24.height,
-                      Visibility(
-                        visible: phoneNumber.isEmptyOrNull,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Already have an account?',
-                                style: TextStyle(fontSize: 16.0)),
-                            GestureDetector(
-                              onTap: () {
-                                context.go(loginRoute);
-                                // context.replaceRoute(SignupRoute());
-                              },
-                              child: const Text(
-                                ' Login',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
+                      // Visibility(
+                      //   visible: phoneNumber.isEmptyOrNull,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       const Text('Already have an account?',
+                      //           style: TextStyle(fontSize: 16.0)),
+                      //       GestureDetector(
+                      //         onTap: () {
+                      //           context.go(loginRoute);
+                      //           // context.replaceRoute(SignupRoute());
+                      //         },
+                      //         child: const Text(
+                      //           ' Login',
+                      //           style: TextStyle(
+                      //               fontSize: 16.0,
+                      //               color: Colors.blue,
+                      //               fontWeight: FontWeight.bold),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

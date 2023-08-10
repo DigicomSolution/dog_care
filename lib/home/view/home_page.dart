@@ -246,11 +246,11 @@ class MyHomePage extends HookConsumerWidget {
                   onPressed: () async{
                      setValue(kIsLoggedIn, false);
                     
-                    context.go(loginRoute);
+                    context.go(fsignUpRoute);
                     // context.replaceRoute(SignupRoute());
                   },
                   child: const Text(
-                    'Log out',
+                    'Reset',
                     style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.blue,
