@@ -22,7 +22,7 @@ final router = GoRouter(
       redirect: (context, state) {
         return getBoolAsync(kIsLoggedIn, defaultValue: false)
             ? homeRoute
-            : fsignUpRoute;
+            : signUpRoute;
 
         /*  ? const StoreBottomNavigation()
                 : const CustomerBottomNavigation(); */

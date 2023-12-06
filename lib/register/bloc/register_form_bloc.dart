@@ -16,15 +16,16 @@ class SignupFormBloc extends FormBloc<String, String> {
   final agreeToConditions = BooleanFieldBloc(
     validators: [FieldBlocValidators.required],
   );
-  final numberCode = BooleanFieldBloc(
-    validators: [FieldBlocValidators.required],
-  );
+  // final numberCode = BooleanFieldBloc(
+  //   validators: [FieldBlocValidators.required],
+  // );
 
   //final UserRepository _userRepository;
 
   SignupFormBloc() {
     addFieldBlocs(
-      fieldBlocs: [fName, lName, pupName, numberCode, agreeToConditions],
+      // fieldBlocs: [fName, lName, pupName, numberCode, agreeToConditions],
+      fieldBlocs: [fName, lName, pupName, agreeToConditions],
     );
     // Obtain shared preferences.
 
@@ -50,19 +51,20 @@ class SignupFormBloc extends FormBloc<String, String> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       final List<String> items = prefs.getStringList(kList) ?? [];
-      String number = getStringAsync(kPhoneNumber).contains('+')
-          ? getStringAsync(kPhoneNumber).split('+').last
-          : getStringAsync(kPhoneNumber);
+      // String number = getStringAsync(kPhoneNumber).contains('+')
+      //     ? getStringAsync(kPhoneNumber).split('+').last
+      //     : getStringAsync(kPhoneNumber);
 
       var model = <String, String>{
         'firstname': fName.value,
         'lastname': lName.value,
         'pupName': pupName.value,
-        'phoneNumber': number,
+        // 'phoneNumber': number,
       };
       String imageName = '';
 
-      imageName = "${fName.value}, ${lName.value}, ${pupName.value}, $number";
+      imageName = "${fName.value}, ${lName.value}, ${pupName.value}";
+      // imageName = "${fName.value}, ${lName.value}, ${pupName.value}, $number";
       setValue(kqrcode, imageName);
 
       setValue(kSelectedModel, model);

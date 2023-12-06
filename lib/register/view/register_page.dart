@@ -27,10 +27,10 @@ class RegisterPage extends ConsumerWidget {
       create: (context) => SignupFormBloc(),
       child: Builder(builder: (context) {
         final signupFormBloc = context.read<SignupFormBloc>();
-        String phoneNumber = getStringAsync(kPhoneNumber, defaultValue: '');
-        if (!phoneNumber.trim().isEmptyOrNull) {
-          signupFormBloc.numberCode.updateValue(true);
-        }
+        // String phoneNumber = getStringAsync(kPhoneNumber, defaultValue: '');
+        // if (!phoneNumber.trim().isEmptyOrNull) {
+        //   signupFormBloc.numberCode.updateValue(true);
+        // }
 
         String lastName = getStringAsync(kLastName, defaultValue: '');
         if (!lastName.trim().isEmptyOrNull) {
@@ -89,15 +89,15 @@ class RegisterPage extends ConsumerWidget {
                         width: 120,
                       )
                       .center(), */
-                      48.height,
-                      Text(
-                        phoneNumber.isEmptyOrNull
-                            ? 'Please enter your information below'
-                            : 'Please enter your dog name',
-                        textAlign: TextAlign.center,
-                        style:
-                            GoogleFonts.ubuntu(fontSize: 20, color: appBlack),
-                      ),
+                      // 48.height,
+                      // Text(
+                      //   phoneNumber.isEmptyOrNull
+                      //       ? 'Please enter your information below'
+                      //       : 'Please enter your dog name',
+                      //   textAlign: TextAlign.center,
+                      //   style:
+                      //       GoogleFonts.ubuntu(fontSize: 20, color: appBlack),
+                      // ),
                       32.height,
                       Visibility(
                         visible: firstName.trim().isEmptyOrNull,
@@ -123,26 +123,26 @@ class RegisterPage extends ConsumerWidget {
                             labelText: "Pup's Name(s)",
                             prefixIcon: const Icon(PhosphorIcons.dog)),
                       ),
-                      Visibility(
-                        visible: phoneNumber.trim().isEmptyOrNull,
-                        child: IntlPhoneField(
-                          decoration: inputDecoration(
-                            labelText: 'Phone Number',
-                          ),
-                          initialCountryCode: 'US',
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                            if (phone.completeNumber.toString().isEmptyOrNull ||
-                                phone.completeNumber.length < 3) {
-                              signupFormBloc.numberCode.updateValue(false);
-                            } else {
-                              signupFormBloc.numberCode.updateValue(true);
-                            }
-                            setValue(
-                                kPhoneNumber, phone.completeNumber.toString());
-                          },
-                        ),
-                      ),
+                      // Visibility(
+                      //   visible: phoneNumber.trim().isEmptyOrNull,
+                      //   child: IntlPhoneField(
+                      //     decoration: inputDecoration(
+                      //       labelText: 'Phone Number',
+                      //     ),
+                      //     initialCountryCode: 'US',
+                      //     onChanged: (phone) {
+                      //       print(phone.completeNumber);
+                      //       if (phone.completeNumber.toString().isEmptyOrNull ||
+                      //           phone.completeNumber.length < 3) {
+                      //         signupFormBloc.numberCode.updateValue(false);
+                      //       } else {
+                      //         signupFormBloc.numberCode.updateValue(true);
+                      //       }
+                      //       setValue(
+                      //           kPhoneNumber, phone.completeNumber.toString());
+                      //     },
+                      //   ),
+                      // ),
                       /*  TextFieldBlocBuilder(
                         textFieldBloc: signupFormBloc.confirmPassword,
                         suffixButton: SuffixButton.obscureText,
@@ -155,7 +155,8 @@ class RegisterPage extends ConsumerWidget {
                       ), */
                       20.height,
                       Visibility(
-                        visible: phoneNumber.trim().isEmptyOrNull,
+                        // visible: phoneNumber.trim().isEmptyOrNull,
+                        visible: true,
                         child: CheckboxFieldBlocBuilder(
                           //   checkColor:
                           //     MaterialStateProperty.all(ColorName.primaryColor),
@@ -217,9 +218,12 @@ class RegisterPage extends ConsumerWidget {
                               bloc: signupFormBloc.agreeToConditions,
                               builder: (context, s) {
                                 return AppButton(
-                                  title: phoneNumber.isEmptyOrNull
-                                      ? 'Create Account'
-                                      : 'Add Dog',
+                                  title:
+                                      // phoneNumber.isEmptyOrNull
+                                      //     ? 'Create Account'
+                                      //
+                                      //     :
+                                      'Add Dog',
                                   onPressed: signupFormBloc.submit,
                                   isDisabled:
                                       state.isValid(0) && s.value == true

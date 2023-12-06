@@ -218,7 +218,6 @@ class MyHomePage extends HookConsumerWidget {
                         setValue(kqrcode, imageName);
                         ref.refresh(listUserProvider);
                       }
-                      
                     },
                     isDisabled: false,
                     /*  isDisabled:
@@ -243,11 +242,38 @@ class MyHomePage extends HookConsumerWidget {
                   ),
                 ),
               TextButton(
-                  onPressed: () async{
-                     setValue(kIsLoggedIn, false);
-                    
-                    context.go(fsignUpRoute);
-                    // context.replaceRoute(SignupRoute());
+                  onPressed: () async {
+                    bool confirmed = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirmation'),
+                          content: Text('Are you sure you want to reset?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(true); // Returns true when confirmed
+                              },
+                              child: Text('Yes'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(false); // Returns false when canceled
+                              },
+                              child: Text('No'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (confirmed != null && confirmed) {
+                      setValue(kIsLoggedIn, false);
+
+                      // context.go(fsignUpRoute);
+                      context.go(signUpRoute);
+                    }
                   },
                   child: const Text(
                     'Reset',
