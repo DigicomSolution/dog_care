@@ -154,58 +154,85 @@ class MyHomePage extends HookConsumerWidget {
                   child: AppButton(
                     title: 'Delete dog',
                     onPressed: () async {
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      bool confirmed = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Confirmation'),
+                            content:
+                                const Text('Are you sure you want to Delete?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(true); // Returns true when confirmed
+                                },
+                                child: const Text('Yes'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(
+                                      false); // Returns false when canceled
+                                },
+                                child: Text('No'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (confirmed != null && confirmed) {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
 
-                      final List<String> items =
-                          prefs.getStringList(kList) ?? [];
-                      String theOne = '';
-                      for (String stuff in items) {
-                        print(stuff);
-                        //  print(jsonDecode(selectedModel.value)['pupName']);
-                        if (stuff.contains(selectedModel.value!.pupName!)) {
-                          theOne = stuff;
+                        final List<String> items =
+                            prefs.getStringList(kList) ?? [];
+                        String theOne = '';
+                        for (String stuff in items) {
+                          print(stuff);
+                          //  print(jsonDecode(selectedModel.value)['pupName']);
+                          if (stuff.contains(selectedModel.value!.pupName!)) {
+                            theOne = stuff;
+                          }
                         }
-                      }
-                      if (theOne.trim().isNotEmpty) {
-                        items.remove(theOne);
-                      }
+                        if (theOne.trim().isNotEmpty) {
+                          items.remove(theOne);
+                        }
 
-                      // setValue(kSelectedModel, items);
-                      // items.add(model.toString());
+                        // setValue(kSelectedModel, items);
+                        // items.add(model.toString());
 
-                      await prefs.setStringList(kList, items);
-                      if (items.isEmpty) {
-                        setValue(kSelectedModel, '');
-                        selectedModel.value = null;
-                        context.push(signUpRoute);
-                      } else {
-                        print('kkkkkk');
-                        print(items[0]);
-                        print(items[0]);
-                        print('popopopoo');
-                        //{firstname: j, lastname: j, pupName: pop new, phoneNumber: 19999999999}
-                        var list = items[0].split(', ');
-                        var fname = list[0].split('firstname:').last.trim();
-                        var lname = list[1].split('lastname:').last.trim();
-                        var pupName = list[2].split('pupName:').last.trim();
-                        // var phoneNumber =
-                        //     list[3].split('phoneNumber:').last.trim();
-                        var model = <String, String>{
-                          'firstname': fname,
-                          'lastname': lname,
-                          'pupName': pupName,
-                          // 'phoneNumber': phoneNumber,
-                        };
-                        setValue(kSelectedModel, model);
-                        selectedModel.value = UserData(
-                            firstname: fname,
-                            lastname: lname,
-                            // phoneNumber: phoneNumber,
-                            pupName: pupName);
-                        String imageName = '';
+                        await prefs.setStringList(kList, items);
+                        if (items.isEmpty) {
+                          setValue(kSelectedModel, '');
+                          selectedModel.value = null;
+                          context.push(signUpRoute);
+                        } else {
+                          print('kkkkkk');
+                          print(items[0]);
+                          print(items[0]);
+                          print('popopopoo');
+                          //{firstname: j, lastname: j, pupName: pop new, phoneNumber: 19999999999}
+                          var list = items[0].split(', ');
+                          var fname = list[0].split('firstname:').last.trim();
+                          var lname = list[1].split('lastname:').last.trim();
+                          var pupName = list[2].split('pupName:').last.trim();
+                          // var phoneNumber =
+                          //     list[3].split('phoneNumber:').last.trim();
+                          var model = <String, String>{
+                            'firstname': fname,
+                            'lastname': lname,
+                            'pupName': pupName,
+                            // 'phoneNumber': phoneNumber,
+                          };
+                          setValue(kSelectedModel, model);
+                          selectedModel.value = UserData(
+                              firstname: fname,
+                              lastname: lname,
+                              // phoneNumber: phoneNumber,
+                              pupName: pupName);
+                          String imageName = '';
 
-                        /*   String fname =
+                          /*   String fname =
                             jsonDecode(selectedModel.value)['firstName'];
                         String lname =
                             jsonDecode(selectedModel.value)['lastName'];
@@ -213,13 +240,14 @@ class MyHomePage extends HookConsumerWidget {
                             jsonDecode(selectedModel.value)['phoneNumber'];
                         String pupName =
                             jsonDecode(selectedModel.value)['pupName']; */
-                        imageName = "$fname, $lname, $pupName, "
-                            // "$phoneNumber"
-                            ;
-                        print('wwer $imageName');
-                        qrImage.value = imageName;
-                        setValue(kqrcode, imageName);
-                        ref.refresh(listUserProvider);
+                          imageName = "$fname, $lname, $pupName, "
+                              // "$phoneNumber"
+                              ;
+                          print('wwer $imageName');
+                          qrImage.value = imageName;
+                          setValue(kqrcode, imageName);
+                          ref.refresh(listUserProvider);
+                        }
                       }
                     },
                     isDisabled: false,

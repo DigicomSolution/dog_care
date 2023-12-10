@@ -2,7 +2,7 @@
     package="com.pupscoutsboarding.qrbarcodes">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="qrcode_app"
+        android:label="Pup Scouts QR"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
