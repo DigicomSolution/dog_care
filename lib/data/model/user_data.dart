@@ -11,7 +11,7 @@ class UserData with _$UserData {
   factory UserData({
     required String? firstname,
     required String? lastname,
-    required String? phoneNumber,
+    // required String? phoneNumber,
     required String? pupName,
   }) = _UserModel;
 

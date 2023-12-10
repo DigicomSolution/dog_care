@@ -18,12 +18,12 @@ final listUserProvider =
           var fisrtName = string[0].split(':').last;
           var lastName = string[1].split(':').last;
           var email = string[2].split(':').last;
-          var phone = string[3].split(':').last.split('}').first;
+          // var phone = string[3].split(':').last.split('}').first;
 
           userList.add(UserData(
               firstname: fisrtName,
               lastname: lastName,
-              phoneNumber: phone,
+              // phoneNumber: phone,
               pupName: email));
         }
       } catch (e) {

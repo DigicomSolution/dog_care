@@ -9,7 +9,7 @@ part of 'user_data.dart';
 _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       firstname: json['firstname'] as String?,
       lastname: json['lastname'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
+      // phoneNumber: json['phoneNumber'] as String?,
       pupName: json['pupName'] as String?,
     );
 

@@ -1,11 +1,17 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nb_utils/nb_utils.dart' hide AppButton;
+import 'package:path_provider/path_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:qrcode_app/router.dart';
 import 'package:qrcode_app/util/color.dart';
@@ -19,7 +25,73 @@ import '../../util/loader.dart';
 import '../bloc/register_form_bloc.dart';
 
 class RegisterPage extends ConsumerWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  String policyPDF = "";
+  String conditionPDF = "";
+
+  RegisterPage({Key? key}) : super(key: key) {
+    fromAsset('asset/Privacy_Policy.pdf', 'Privacy_Policy.pdf').then((f) {
+      policyPDF = f.path;
+    });
+    fromAsset('asset/Terms_and_Conditions.pdf', 'Terms_and_Conditions.pdf')
+        .then((f) {
+      conditionPDF = f.path;
+    });
+  }
+  Future<File> fromAsset(String asset, String filename) async {
+    Completer<File> completer = Completer();
+    try {
+      print("got 1");
+      var dir = await getApplicationDocumentsDirectory();
+      print("got 2");
+      print("got 2 $dir");
+      File file = File("${dir.path}/$filename");
+      print("got 3");
+      var data = await rootBundle.load(asset);
+      print("got 4");
+      var bytes = data.buffer.asUint8List();
+      print("got 5");
+      await file.writeAsBytes(bytes, flush: true);
+      print("got 6");
+      completer.complete(file);
+      print("got 7");
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    }
+
+    return completer.future;
+  }
+
+  void navigateToTermsAndConditions(BuildContext context) {
+    if (conditionPDF.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFScreen(path: conditionPDF),
+        ),
+      );
+    }
+  }
+
+  Future<void> navigateToPrivacyPolicy(BuildContext context) async {
+    if (policyPDF.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFScreen(path: policyPDF),
+        ),
+      );
+    }
+    /*  try {
+                                      _launchUrl(context,
+                                          "https://vigoplace.com/terms-and-conditions");
+                                      /*      await launch('https://flutter.dev',
+                                          forceWebView: true,
+                                          //   forceSafariVC: true,
+                                          enableJavaScript: true); */
+                                    } catch (e) {
+                                      log('invalid url');
+                                    } */
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -176,18 +248,9 @@ class RegisterPage extends ConsumerWidget {
                                         color: Colors.blue,
                                         fontWeight: FontWeight.bold),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        /*  try {
-                                      _launchUrl(context,
-                                          "https://vigoplace.com/terms-and-conditions");
-                                      /*      await launch('https://flutter.dev',
-                                          forceWebView: true,
-                                          //   forceSafariVC: true,
-                                          enableJavaScript: true); */
-                                    } catch (e) {
-                                      log('invalid url');
-                                    } */
-                                      }),
+                                      ..onTap = () =>
+                                          navigateToTermsAndConditions(
+                                              context)),
                                 const TextSpan(
                                   text: ' and \n',
                                 ),
@@ -197,14 +260,8 @@ class RegisterPage extends ConsumerWidget {
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      /* try {
-                                    _launchUrl(context,
-                                        "https://vigoplace.com/privacy-policy");
-                                  } catch (e) {
-                                    log('invalid url');
-                                  } */
-                                    },
+                                    ..onTap =
+                                        () => navigateToPrivacyPolicy(context),
                                 ),
                               ],
                             ),
@@ -277,4 +334,101 @@ class RegisterPage extends ConsumerWidget {
   //         title: 'Unable to lunch Url', backgroundColor: Colors.red);
   //   }
   // }
+}
+
+class PDFScreen extends StatefulWidget {
+  final String? path;
+
+  PDFScreen({Key? key, this.path}) : super(key: key);
+
+  _PDFScreenState createState() => _PDFScreenState();
+}
+
+class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
+  final Completer<PDFViewController> _controller =
+      Completer<PDFViewController>();
+  int? pages = 0;
+  int? currentPage = 0;
+  bool isReady = false;
+  String errorMessage = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        title: Text(""),
+      ),
+      body: Stack(
+        children: <Widget>[
+          PDFView(
+            filePath: widget.path,
+            enableSwipe: true,
+            swipeHorizontal: true,
+            autoSpacing: false,
+            pageFling: true,
+            pageSnap: true,
+            defaultPage: currentPage!,
+            fitPolicy: FitPolicy.BOTH,
+            preventLinkNavigation:
+                false, // if set to true the link is handled in flutter
+            onRender: (_pages) {
+              setState(() {
+                pages = _pages;
+                isReady = true;
+              });
+            },
+            onError: (error) {
+              setState(() {
+                errorMessage = error.toString();
+              });
+              print(error.toString());
+            },
+            onPageError: (page, error) {
+              setState(() {
+                errorMessage = '$page: ${error.toString()}';
+              });
+              print('$page: ${error.toString()}');
+            },
+            onViewCreated: (PDFViewController pdfViewController) {
+              _controller.complete(pdfViewController);
+            },
+            onLinkHandler: (String? uri) {
+              print('goto uri: $uri');
+            },
+            onPageChanged: (int? page, int? total) {
+              print('page change: $page/$total');
+              setState(() {
+                currentPage = page;
+              });
+            },
+          ),
+          errorMessage.isEmpty
+              ? !isReady
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Container()
+              : Center(
+                  child: Text(errorMessage),
+                )
+        ],
+      ),
+      floatingActionButton: FutureBuilder<PDFViewController>(
+        future: _controller.future,
+        builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
+          if (snapshot.hasData) {
+            return FloatingActionButton.extended(
+              label: Text("Go to ${pages! ~/ 2}"),
+              onPressed: () async {
+                await snapshot.data!.setPage(pages! ~/ 2);
+              },
+            );
+          }
+
+          return Container();
+        },
+      ),
+    );
+  }
 }

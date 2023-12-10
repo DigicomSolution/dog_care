@@ -125,10 +125,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
+      // phoneNumber: freezed == phoneNumber
+      //     ? _value.phoneNumber
+      //     : phoneNumber // ignore: cast_nullable_to_non_nullable
+      //         as String?,
       pupName: freezed == pupName
           ? _value.pupName
           : pupName // ignore: cast_nullable_to_non_nullable
@@ -143,7 +143,7 @@ class _$_UserModel implements _UserModel {
   _$_UserModel(
       {required this.firstname,
       required this.lastname,
-      required this.phoneNumber,
+      // required this.phoneNumber,
       required this.pupName});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
@@ -181,7 +181,7 @@ abstract class _UserModel implements UserData {
   factory _UserModel(
       {required String? firstname,
       required String? lastname,
-      required String? phoneNumber,
+      // required String? phoneNumber,
       required String? pupName}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =

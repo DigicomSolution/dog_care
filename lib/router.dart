@@ -47,7 +47,7 @@ final router = GoRouter(
 
     GoRoute(
       path: signUpRoute,
-      builder: (context, state) => const RegisterPage(),
+      builder: (context, state) => RegisterPage(),
     ),
     GoRoute(
       path: fsignUpRoute,

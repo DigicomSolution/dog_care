@@ -56,16 +56,17 @@ class MyHomePage extends HookConsumerWidget {
                                   //  String value = e.toString();
                                   String fName = e.firstname!;
                                   String lName = e.lastname!;
-                                  String phNum = e.phoneNumber!;
+                                  // String phNum = e.phoneNumber!;
                                   String pupName = e.pupName!;
                                   var all = {
                                     'firstName': fName,
                                     'lastName': lName,
-                                    'phoneNumber': phNum,
+                                    // 'phoneNumber': phNum,
                                     'pupName': pupName
                                   };
-                                  String imageName =
-                                      "$fName, $lName, $pupName, $phNum";
+                                  String imageName = "$fName, $lName, $pupName,"
+                                      // " $phNum"
+                                      ;
                                   setValue(kqrcode, imageName);
                                   qrImage.value = imageName;
                                   selectedModel.value = UserData.fromJson(all);
@@ -188,19 +189,19 @@ class MyHomePage extends HookConsumerWidget {
                         var fname = list[0].split('firstname:').last.trim();
                         var lname = list[1].split('lastname:').last.trim();
                         var pupName = list[2].split('pupName:').last.trim();
-                        var phoneNumber =
-                            list[3].split('phoneNumber:').last.trim();
+                        // var phoneNumber =
+                        //     list[3].split('phoneNumber:').last.trim();
                         var model = <String, String>{
                           'firstname': fname,
                           'lastname': lname,
                           'pupName': pupName,
-                          'phoneNumber': phoneNumber,
+                          // 'phoneNumber': phoneNumber,
                         };
                         setValue(kSelectedModel, model);
                         selectedModel.value = UserData(
                             firstname: fname,
                             lastname: lname,
-                            phoneNumber: phoneNumber,
+                            // phoneNumber: phoneNumber,
                             pupName: pupName);
                         String imageName = '';
 
@@ -212,7 +213,9 @@ class MyHomePage extends HookConsumerWidget {
                             jsonDecode(selectedModel.value)['phoneNumber'];
                         String pupName =
                             jsonDecode(selectedModel.value)['pupName']; */
-                        imageName = "$fname, $lname, $pupName, $phoneNumber";
+                        imageName = "$fname, $lname, $pupName, "
+                            // "$phoneNumber"
+                            ;
                         print('wwer $imageName');
                         qrImage.value = imageName;
                         setValue(kqrcode, imageName);
@@ -269,6 +272,14 @@ class MyHomePage extends HookConsumerWidget {
                       },
                     );
                     if (confirmed != null && confirmed) {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final List<String> items =
+                          prefs.getStringList(kList) ?? [];
+                      items.clear();
+                      await prefs.setStringList(kList, items);
+                      setValue(kLastName, '');
+                      setValue(kFirstName, '');
                       setValue(kIsLoggedIn, false);
 
                       // context.go(fsignUpRoute);
