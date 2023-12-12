@@ -64,7 +64,7 @@ class MyHomePage extends HookConsumerWidget {
                                     // 'phoneNumber': phNum,
                                     'pupName': pupName
                                   };
-                                  String imageName = "$fName, $lName, $pupName,"
+                                  String imageName = "$fName, $lName, $pupName"
                                       // " $phNum"
                                       ;
                                   setValue(kqrcode, imageName);
@@ -73,7 +73,13 @@ class MyHomePage extends HookConsumerWidget {
                                   finish(context);
                                 },
                                 child: ListTile(
-                                  title: Text(e.pupName!),
+                                  title: Text(
+                                    "${e.pupName}",
+                                    style: GoogleFonts.ubuntu(
+                                        fontSize: 20,
+                                        color: appBlack,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 )))
                             .toList());
                   },
@@ -127,7 +133,7 @@ class MyHomePage extends HookConsumerWidget {
                     : selectedModel.value!.pupName ?? 'No dog added',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.ubuntu(
-                    fontSize: 20, color: appBlack, fontWeight: FontWeight.w700),
+                    fontSize: 30, color: appBlack, fontWeight: FontWeight.w700),
               ),
               48.height,
               selectedModel.value != null
@@ -174,7 +180,7 @@ class MyHomePage extends HookConsumerWidget {
                                   Navigator.of(context).pop(
                                       false); // Returns false when canceled
                                 },
-                                child: Text('No'),
+                                child: const Text('No'),
                               ),
                             ],
                           );
@@ -215,7 +221,8 @@ class MyHomePage extends HookConsumerWidget {
                           var list = items[0].split(', ');
                           var fname = list[0].split('firstname:').last.trim();
                           var lname = list[1].split('lastname:').last.trim();
-                          var pupName = list[2].split('pupName:').last.trim();
+                          var pupName =
+                              list[2].split(':').last.replaceAll('}', '');
                           // var phoneNumber =
                           //     list[3].split('phoneNumber:').last.trim();
                           var model = <String, String>{

@@ -8,7 +8,7 @@ final listUserProvider =
     FutureProvider.autoDispose<List<UserData>>((ref) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String>? list = prefs.getStringList(kList);
-  //print(list);
+  print(list);
   List<UserData> userList = [];
   if (list != null) {
     if (list.isNotEmpty) {
@@ -17,7 +17,7 @@ final listUserProvider =
           var string = host.split(',');
           var fisrtName = string[0].split(':').last;
           var lastName = string[1].split(':').last;
-          var email = string[2].split(':').last;
+          var email = string[2].split(':').last.replaceAll('}', '');
           // var phone = string[3].split(':').last.split('}').first;
 
           userList.add(UserData(
