@@ -9,7 +9,7 @@ class DogImage extends StatelessWidget {
       radius: 16.0,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50.0),
-        child: Image.asset('asset/image/dog.png'),
+        child: Image.asset('asset/image/dog.jpeg'),
       ),
     );
   }

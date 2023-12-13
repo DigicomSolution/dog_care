@@ -63,7 +63,8 @@ class SignupFormBloc extends FormBloc<String, String> {
       };
       String imageName = '';
 
-      imageName = "${fName.value}, ${lName.value}, ${pupName.value}";
+      imageName =
+          "${pupName.value.toUpperCase()} - ${fName.value} ${lName.value}";
       // imageName = "${fName.value}, ${lName.value}, ${pupName.value}, $number";
       setValue(kqrcode, imageName);
 

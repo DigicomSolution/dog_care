@@ -40,20 +40,12 @@ class RegisterPage extends ConsumerWidget {
   Future<File> fromAsset(String asset, String filename) async {
     Completer<File> completer = Completer();
     try {
-      print("got 1");
       var dir = await getApplicationDocumentsDirectory();
-      print("got 2");
-      print("got 2 $dir");
       File file = File("${dir.path}/$filename");
-      print("got 3");
       var data = await rootBundle.load(asset);
-      print("got 4");
       var bytes = data.buffer.asUint8List();
-      print("got 5");
       await file.writeAsBytes(bytes, flush: true);
-      print("got 6");
       completer.complete(file);
-      print("got 7");
     } catch (e) {
       throw Exception('Error parsing asset file!');
     }

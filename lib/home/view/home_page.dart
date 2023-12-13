@@ -64,7 +64,8 @@ class MyHomePage extends HookConsumerWidget {
                                     // 'phoneNumber': phNum,
                                     'pupName': pupName
                                   };
-                                  String imageName = "$fName, $lName, $pupName"
+                                  String imageName =
+                                      "${pupName.toUpperCase()} - $fName $lName"
                                       // " $phNum"
                                       ;
                                   setValue(kqrcode, imageName);
@@ -247,7 +248,7 @@ class MyHomePage extends HookConsumerWidget {
                             jsonDecode(selectedModel.value)['phoneNumber'];
                         String pupName =
                             jsonDecode(selectedModel.value)['pupName']; */
-                          imageName = "$fname, $lname, $pupName, "
+                          imageName = "${pupName.toUpperCase()} - $fname $lname"
                               // "$phoneNumber"
                               ;
                           print('wwer $imageName');

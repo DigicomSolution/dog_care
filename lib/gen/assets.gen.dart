@@ -12,8 +12,8 @@ import 'package:flutter/widgets.dart';
 class $AssetImageGen {
   const $AssetImageGen();
 
-  /// File path: asset/image/dog.png
-  AssetGenImage get dog => const AssetGenImage('asset/image/dog.png');
+  /// File path: asset/image/dog.jpeg
+  AssetGenImage get dog => const AssetGenImage('asset/image/dog.jpeg');
 
   /// List of all assets
   List<AssetGenImage> get values => [dog];
